@@ -65,6 +65,17 @@ public class fCatalog extends Fragment {
 	            }
 	        });
             new GetData().execute();
+			lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+				@Override
+				public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+					fSubCatalog fSubCat = new fSubCatalog();
+					Bundle bundle = new Bundle();
+					bundle.putInt("id", position);
+					bundle.putString("category", dataList.get(position).getTitle());
+					fSubCat.setArguments(bundle);
+					getFragmentManager().beginTransaction().replace(R.id.frgmCont, fSubCat).addToBackStack("subcatalog").commit();
+				}
+			});
 	        return view;
 	    }
 	 
@@ -91,14 +102,14 @@ public class fCatalog extends Fragment {
 	                    for (int i = 0; i < data.length(); i++) {
 	                        JSONObject c = data.getJSONObject(i);
 	                         
-	                        //String id = c.getString(TAG_ID);
+	                        String id = c.getString(TAG_ID);
 	                        String name = c.getString(TAG_NAME);
 	                        String image = c.getString(TAG_IMAGE);
 	                        String urldisplay = pic_url+image;
 	                        
 	                        InputStream in = new java.net.URL(urldisplay).openStream();
 	                        Bitmap icon = BitmapFactory.decodeStream(in);
-	        	        	ListRow row = new ListRow(name, icon);
+	        	        	ListRow row = new ListRow(Integer.parseInt(id), name, icon);
 	                        
 	                        dataList.add(row);
 	                    } 
@@ -126,7 +137,7 @@ public class fCatalog extends Fragment {
 	                pDialog.dismiss();
 	           lv.setAdapter(new ListAdapter(getActivity(), dataList));
 	        }
-	    }
+	}
 }
 
 

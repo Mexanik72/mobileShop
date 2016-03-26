@@ -4,6 +4,7 @@
     <string name="welcome_tap">Tap to start</string>
     <string name="action_settings">Settings</string>
     <string name="catalog_header">Catalog</string>
+    <string name="catalog_sub_header">SubCatalog</string>
     <string name="aboutUs_header">About us</string>
     
     <!-- Login Activity -->
