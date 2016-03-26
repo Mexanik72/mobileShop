@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Om-Nom-Nom</string>
+    <string name="welcome_tap">Tap to start</string>
+    <string name="action_settings">Settings</string>
+    <string name="catalog_header">Catalog</string>
+    <string name="aboutUs_header">About us</string>
+    
+    <!-- Login Activity -->
+    <string name="la_loginText">Log in</string>
+    <string name="la_usernameHint">Username</string>
+    <string name="la_passwordHint">Password</string>
+    <string name="la_loginButton">Login</string>
+    <string name="la_registrationButton">Registration</string>
+    
+    <!-- Registration Activity -->
+    <string name="ra_registrationText">Registration</string>
+    <string name="ra_nameHint">Name</string>
+    <string name="ra_surnameHint">Surname</string>
+    <string name="ra_loginHint">Login</string>
+    <string name="ra_emailHint">E-mail</string>
+    <string name="ra_phoneNumberHint">Phone Number</string>
+    <string name="ra_passwordHint">Password</string>
+    <string name="ra_confirmPasswordHint">Confirm password</string>
+    <string name="ra_agreementCheckbox">I agree with&#160;</string>
+    <string name="ra_terms">terms</string>      
+    <string name="ra_registrationButton">Registration</string>
+
+</resources>
