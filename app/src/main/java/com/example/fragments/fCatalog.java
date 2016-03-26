@@ -47,9 +47,6 @@ public class fCatalog extends Fragment {
 	 String pic_url = "http://ec2-54-218-6-169.us-west-2.compute.amazonaws.com/resources/categories/";
 	 
 	 public TextView js;
-
-     FragmentTransaction frt;
-     Fragment fWelcome;
 	 
 	 @Override
 	    public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -62,12 +59,11 @@ public class fCatalog extends Fragment {
 	        ib.setOnClickListener(new View.OnClickListener() {
 	            @Override
 	            public void onClick(View v) {
-	                frt = getActivity().getFragmentManager().beginTransaction();
-	                frt.replace(R.id.frgmCont, fWelcome);
-	                frt.commit();
+					getFragmentManager().beginTransaction();
+					getFragmentManager().popBackStack();
+					getFragmentManager().executePendingTransactions();
 	            }
 	        });
-	        fWelcome = new fWelcome();
             new GetData().execute();
 	        return view;
 	    }

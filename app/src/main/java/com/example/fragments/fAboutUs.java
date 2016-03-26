@@ -11,8 +11,6 @@ import android.widget.TextView;
 
 public class fAboutUs extends Fragment {
 
-    FragmentTransaction frt;
-    Fragment fWelcome;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -28,12 +26,11 @@ public class fAboutUs extends Fragment {
         ib.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                frt = getActivity().getFragmentManager().beginTransaction();
-                frt.replace(R.id.frgmCont, fWelcome);
-                frt.commit();
+                getFragmentManager().beginTransaction();
+                getFragmentManager().popBackStack();
+                getFragmentManager().executePendingTransactions();
             }
         });
-        fWelcome = new fWelcome();
 
         return view;
     }

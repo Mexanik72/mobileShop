@@ -32,36 +32,29 @@ public class fWelcome extends Fragment {
 			}
 		});
 
+		fcat = new fCatalog();
+		fabout = new fAboutUs();
+		fhelp = new fHelp();
 
 		RelativeLayout ll = (RelativeLayout) velcomeView.findViewById(R.id.rWelcomLayout);
 		ll.setOnTouchListener(new OnSwipeTouchListener(velcomeView.getContext()) {
 
 			public void onSwipeTop() {
-				frt = getFragmentManager().beginTransaction();
-				frt.replace(R.id.frgmCont, fabout);
-				frt.commit();
+				getFragmentManager().beginTransaction().replace(R.id.frgmCont, fabout).addToBackStack("about").commit();
 			}
 
 			public void onSwipeRight() {
-				frt = getFragmentManager().beginTransaction();
-				frt.replace(R.id.frgmCont, fhelp);
-				frt.commit();
+				getFragmentManager().beginTransaction().replace(R.id.frgmCont, fhelp).addToBackStack("help").commit();
 			}
 
 			public void onSwipeLeft() {
-				frt = getFragmentManager().beginTransaction();
-				frt.replace(R.id.frgmCont, fcat);
-				frt.commit();
+				getFragmentManager().beginTransaction().replace(R.id.frgmCont, fcat).addToBackStack("catalog").commit();
 			}
 
 			public void onSwipeBottom() {
 			}
 
 		});
-
-		fcat = new fCatalog();
-		fabout = new fAboutUs();
-		fhelp = new fHelp();
 
 		return velcomeView;
 

@@ -9,25 +9,15 @@ import java.net.HttpURLConnection;
 import java.util.concurrent.ExecutionException;
 
 import android.app.Activity;
-import android.app.FragmentTransaction;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.Button;
-import android.widget.LinearLayout;
-import android.app.Fragment;
-import android.content.Intent;
+import android.view.Window;
 import android.content.res.Configuration;
-import android.widget.TextView;
 
 public class MainActivity extends Activity {
 
 	Menu menu;
-	Fragment fwelc;
-	FragmentTransaction frt;
 	private boolean switcher = true;
 
 	class IsGuestAsync extends AsyncTask<Void, Void, Boolean> {
@@ -84,17 +74,13 @@ public class MainActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.main);
-
-		fwelc = new fWelcome();
 
 		if (savedInstanceState != null) {
 			switcher = savedInstanceState.getBoolean("state");
 		} else {
-			frt = getFragmentManager().beginTransaction();
-			frt.replace(R.id.frgmCont, fwelc);
-			frt.commit();
+			getFragmentManager().beginTransaction().replace(R.id.frgmCont, new fWelcome()).commit();
 		}
 	}
 
