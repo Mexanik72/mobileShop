@@ -8,6 +8,7 @@ public class ListRow {
 	    private Bitmap icon;
 
 	    public ListRow (int id, String title, Bitmap icon) {
+			this.id = id;
 	        this.title = title;
 	        this.icon = icon;
 	    }

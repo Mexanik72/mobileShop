@@ -2,6 +2,8 @@ package com.example.fragments;
 
 import android.app.Fragment;
 import android.app.ProgressDialog;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -16,32 +18,39 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 
-public class fSubCatalog extends Fragment {
+public class fItems extends Fragment {
 
     private ProgressDialog pDialog;
 
     private static final String TAG_DATA = "data";
     private static final String TAG_ID = "id";
     private static final String TAG_NAME = "name";
+    private static final String TAG_IMAGE = "image_url";
+    private static final String TAG_PRICE = "price";
+    private static final String TAG_AVAILABILITY = "availability";
 
     JSONArray data = null;
-    ArrayList<ListRow> dataList;
+    ArrayList<ListRowItem> dataList;
     ListView lv;
-    String url = "http://ec2-54-218-6-169.us-west-2.compute.amazonaws.com/?r=subcategories/getCategories";
+    String url = "http://ec2-54-218-6-169.us-west-2.compute.amazonaws.com/?r=items/getItems";
+    String pic_url = "http://ec2-54-218-6-169.us-west-2.compute.amazonaws.com/resources/items/";
 
-    int id;
     public TextView js;
+    int id;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        dataList = new ArrayList<ListRow>();
-        View view = inflater.inflate(R.layout.catalog_sub_frg, container, false);
-        js = (TextView) view.findViewById(R.id.catalog_sub_view);
-        lv = (ListView) view.findViewById(R.id.catalog_sub_list);
-        ImageButton ib = (ImageButton) view.findViewById(R.id.catalog_sub_imageButton);
+        dataList = new ArrayList<ListRowItem>();
+        View view = inflater.inflate(R.layout.items_frg, container, false);
+        js = (TextView) view.findViewById(R.id.items_view);
+        lv = (ListView) view.findViewById(R.id.data_list_items);
+        ImageButton ib = (ImageButton) view.findViewById(R.id.imageButtonItems);
         ib.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -51,20 +60,8 @@ public class fSubCatalog extends Fragment {
             }
         });
         id = getArguments().getInt("id");
-        js.setText(getArguments().getString("category"));
+        js.setText(getArguments().getString("subCategory"));
         new GetData().execute();
-
-        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                fItems fItm = new fItems();
-                Bundle bundle = new Bundle();
-                bundle.putInt("id", dataList.get(position).getId());
-                bundle.putString("subCategory", dataList.get(position).getTitle());
-                fItm.setArguments(bundle);
-                getFragmentManager().beginTransaction().replace(R.id.frgmCont, fItm).addToBackStack("subCategory").commit();
-            }
-        });
         return view;
     }
 
@@ -82,7 +79,7 @@ public class fSubCatalog extends Fragment {
         @Override
         protected Void doInBackground(String... arg0) {
             ServiceHandler sh = new ServiceHandler();
-            String jsonStr = sh.makeServiceCall(url+"&id="+getArguments().getInt("id"), ServiceHandler.GET);
+            String jsonStr = sh.makeServiceCall(url+"&id="+id, ServiceHandler.GET);
 
             if (jsonStr != null) {
                 try {
@@ -93,11 +90,27 @@ public class fSubCatalog extends Fragment {
 
                         String id = c.getString(TAG_ID);
                         String name = c.getString(TAG_NAME);
-                        ListRow row = new ListRow(Integer.parseInt(id), name, null);
+                        String image = c.getString(TAG_IMAGE);
+                        String price = "0";
+                        if(!c.getString(TAG_PRICE).isEmpty()) {
+                            c.getString(TAG_PRICE);
+                        }
+                        String availability = c.getString(TAG_AVAILABILITY);
+                        String urldisplay = pic_url+image;
+
+                        InputStream in = new java.net.URL(urldisplay).openStream();
+                        Bitmap icon = BitmapFactory.decodeStream(in);
+                        ListRowItem row = new ListRowItem(Integer.parseInt(id), name, icon, Integer.parseInt(price), availability);
 
                         dataList.add(row);
                     }
                 } catch (JSONException e) {
+                    e.printStackTrace();
+                } catch (MalformedURLException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
             } else {
@@ -113,7 +126,7 @@ public class fSubCatalog extends Fragment {
             // Dismiss the progress dialog
             if (pDialog.isShowing())
                 pDialog.dismiss();
-            lv.setAdapter(new ListAdapterSub(getActivity(), dataList));
+            lv.setAdapter(new ListAdapterItems(getActivity(), dataList));
         }
     }
 }

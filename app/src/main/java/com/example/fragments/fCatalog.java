@@ -70,7 +70,7 @@ public class fCatalog extends Fragment {
 				public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 					fSubCatalog fSubCat = new fSubCatalog();
 					Bundle bundle = new Bundle();
-					bundle.putInt("id", position);
+					bundle.putInt("id", dataList.get(position).getId());
 					bundle.putString("category", dataList.get(position).getTitle());
 					fSubCat.setArguments(bundle);
 					getFragmentManager().beginTransaction().replace(R.id.frgmCont, fSubCat).addToBackStack("subcatalog").commit();
