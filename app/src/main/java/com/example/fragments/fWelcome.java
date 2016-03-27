@@ -9,9 +9,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -24,6 +26,7 @@ import java.net.URL;
 public class fWelcome extends Fragment {
 
 	View velcomeView;
+	ImageView imageView;
 
 	class LogoutAsync extends AsyncTask<Void, Void, Boolean> {
 		@Override
@@ -58,11 +61,11 @@ public class fWelcome extends Fragment {
 			Bundle savedInstanceState) {
 		velcomeView = inflater.inflate(R.layout.welcome_frg, container, false);
 
-		TextView tw = (TextView) velcomeView.findViewById(R.id.buttonB);
-		tw.setOnClickListener(new View.OnClickListener() {
+		imageView = (ImageView) velcomeView.findViewById(R.id.imageView1);
+		imageView.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				if(!Connection.isLogged) {
+				if (!Connection.isLogged) {
 					Intent intent = new Intent(velcomeView.getContext(),
 							LoginActivity.class);
 					startActivity(intent);
@@ -70,9 +73,11 @@ public class fWelcome extends Fragment {
 					LogoutAsync task = new LogoutAsync();
 					task.execute();
 					Connection.isLogged = false;
+					updateImageView();
 				}
 			}
 		});
+		updateImageView();
 		RelativeLayout ll = (RelativeLayout) velcomeView.findViewById(R.id.rWelcomLayout);
 		ll.setOnTouchListener(new OnSwipeTouchListener(velcomeView.getContext()) {
 
@@ -92,17 +97,14 @@ public class fWelcome extends Fragment {
 			}
 
 		});
-
 		return velcomeView;
 
 	}
-	void update() {
-		TextView tw = (TextView) velcomeView.findViewById(R.id.buttonB);
-		if (!Connection.isLogged) {
-			tw.setText("Log in");
+	void updateImageView() {
+		if (Connection.isLogged) {
+			imageView.setImageResource(R.drawable.logout);
 		} else {
-			tw.setText("Log out");
+			imageView.setImageResource(R.drawable.guest);
 		}
 	}
-		
 }

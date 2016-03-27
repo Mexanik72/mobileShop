@@ -32,6 +32,29 @@
         android:layout_toEndOf="@+id/imageButton"
         android:textStyle="bold" />
 
+
+    <ImageButton
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:id="@+id/cartButton"
+        android:src="@drawable/cart"
+        android:scaleType="fitXY"
+        android:onClick="onClick"
+        android:background="@null"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="5dp"/>
+
+    <ImageButton
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:id="@+id/userButton"
+        android:src="@drawable/user"
+        android:scaleType="fitXY"
+        android:onClick="onClick"
+        android:background="@null"
+        android:layout_toLeftOf="@id/cartButton"/>
+
+
     <ListView
         android:id="@+id/data_list"
         android:layout_width="fill_parent"

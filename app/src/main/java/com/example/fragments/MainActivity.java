@@ -7,6 +7,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Window;
 import android.content.res.Configuration;
+import android.widget.Toast;
 
 public class MainActivity extends Activity {
 
@@ -59,5 +60,12 @@ public class MainActivity extends Activity {
 
 	public void onConfigurationChanged(Configuration newConfig) {
 		super.onConfigurationChanged(newConfig);
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		if(Connection.isLogged)
+			getFragmentManager().beginTransaction().replace(R.id.frgmCont, new fWelcome()).commit();
 	}
 }
