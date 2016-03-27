@@ -19,6 +19,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
+import java.net.URL;
 
 public class fWelcome extends Fragment {
 
@@ -27,19 +28,16 @@ public class fWelcome extends Fragment {
 	class LogoutAsync extends AsyncTask<Void, Void, Boolean> {
 		@Override
 		protected Boolean doInBackground(Void... params) {
-			Connection conn = new Connection(getActivity().getApplicationContext());
 			HttpURLConnection urlConnection = null;
 			BufferedReader reader = null;
 			try {
-				urlConnection = conn.getConnection(Connection.mainUrl
-						+ "/?r=authentication/logout");
+				URL url = new URL(Connection.mainUrl + "/?r=authentication/logout&access_token="
+						+ SharedPreferencesManager.getAccessToken());
+				urlConnection = (HttpURLConnection) url.openConnection();
 				InputStream in = new BufferedInputStream(
 						urlConnection.getInputStream());
 				reader = new BufferedReader(new InputStreamReader(in));
 				reader.readLine();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

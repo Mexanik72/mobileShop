@@ -9,28 +9,31 @@ import java.util.HashMap;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.json.JSONTokener;
 
 public class LoginActivity extends Activity {
 
 	private EditText username, password;
 	private Button login, registration;
-	
-	private Context context = null;
+
 	private ProgressDialog pd;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_login);
-		context = getApplicationContext();		
 		
 		username = (EditText)findViewById(R.id.la_usernameEdit);
 		password = (EditText)findViewById(R.id.la_passwordEdit);
@@ -53,36 +56,52 @@ public class LoginActivity extends Activity {
 	                }
 					@Override
 					protected String doInBackground(String... params) {
+						HttpURLConnection urlConnection = null;
+						String jsonResponse = null;
 						try {
-							Connection conn = new Connection(context);
-							HttpURLConnection urlConnection = loginRequest();
-							conn.setConnection(urlConnection);
+							urlConnection = loginRequest();
 							InputStream in = new BufferedInputStream(
 									urlConnection.getInputStream());
 							BufferedReader reader = new BufferedReader(new InputStreamReader(in));
-					        if (reader.readLine().equals("ok")) {
-					        	Connection.isLogged = true;
-					        } else {
-					        	Connection.isLogged = false;
-					        }
+							StringBuilder builder = new StringBuilder();
+							for (String line = null; (line = reader.readLine()) != null;) {
+								builder.append(line).append("\n");
+							}
+							jsonResponse = builder.toString();
 					        reader.close();
 						} catch (Exception e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
+						} finally {
+							urlConnection.disconnect();
 						}
-						return null;
+						return jsonResponse;
 					}
 					@Override
-					protected void onPostExecute(String s) {
+					protected void onPostExecute(String jsonResponse) {
 						if (pd != null) {
                             pd.dismiss();
                         }
-						if (!Connection.isLogged) {
-							login.setEnabled(true);
-							Toast.makeText(context, "Incorrect login or password", Toast.LENGTH_LONG).show();
-						} else {
-							Toast.makeText(context, "You are successfully logged in", Toast.LENGTH_LONG).show();
-			                finish();
+						JSONTokener tokener = new JSONTokener(jsonResponse);
+						JSONObject finalResult = null;
+						try {
+							finalResult = new JSONObject(tokener);
+							if (finalResult != null) {
+								String status = finalResult.getString("status");
+								if (status.equals("ok")) {
+									Connection.isLogged = true;
+									JSONObject data = finalResult.getJSONObject("data");
+									SharedPreferencesManager.setAccessToken(data.getString("token"));
+									Toast.makeText(getApplicationContext(), "You are successfully logged in", Toast.LENGTH_LONG).show();
+									finish();
+								} else {
+									Connection.isLogged = false;
+									Toast.makeText(getApplicationContext(), "Incorrect login or password", Toast.LENGTH_LONG).show();
+								}
+							}
+						} catch (JSONException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
 						}
                     }
 				}
