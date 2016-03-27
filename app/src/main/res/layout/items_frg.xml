@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#9ef43d">
+    android:background="#10d907">
 
     <ImageButton
         android:layout_width="45dp"
@@ -30,7 +30,29 @@
         android:layout_alignBottom="@+id/imageButtonItems"
         android:layout_toRightOf="@+id/imageButtonItems"
         android:layout_toEndOf="@+id/imageButtonItems"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:textColor="#8b0023"
+        android:paddingBottom="20px"/>
+
+    <ImageButton
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:id="@+id/cartButton"
+        android:src="@drawable/cart"
+        android:scaleType="fitXY"
+        android:onClick="onClick"
+        android:background="@null"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="5dp"/>
+
+    <ImageButton
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:id="@+id/userButton"
+        android:src="@drawable/user"
+        android:scaleType="fitXY"
+        android:background="@null"
+        android:layout_toLeftOf="@id/cartButton"/>
 
     <ListView
         android:id="@+id/data_list_items"
@@ -38,6 +60,7 @@
         android:layout_height="match_parent"
         android:layout_alignParentLeft="true"
         android:layout_marginLeft="0dp"
-        android:layout_below="@+id/items_view" />
+        android:layout_below="@+id/items_view"
+        android:background="#bbff99" />
 
 </RelativeLayout>

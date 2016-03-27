@@ -16,6 +16,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.content.Intent;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -52,7 +53,7 @@ public class fCatalog extends Fragment {
 	    public View onCreateView(LayoutInflater inflater, ViewGroup container,
 	            Bundle savedInstanceState) {   
 	        dataList = new ArrayList<ListRow>();
-	        View view = inflater.inflate(R.layout.catalog_frg, container, false);
+	        final View view = inflater.inflate(R.layout.catalog_frg, container, false);
 	        js = (TextView) view.findViewById(R.id.ctlg);
 	        lv = (ListView) view.findViewById(R.id.data_list);
 	        ImageButton ib = (ImageButton) view.findViewById(R.id.imageButton);
@@ -64,6 +65,25 @@ public class fCatalog extends Fragment {
 					getFragmentManager().executePendingTransactions();
 	            }
 	        });
+
+			 ImageButton user = (ImageButton) view.findViewById(R.id.userButton);
+			 if (Connection.isLogged) {
+				 user.setImageResource(R.drawable.user);
+			 } else {
+				 user.setImageResource(R.drawable.guest);
+			 }
+			 user.setOnClickListener(new View.OnClickListener() {
+				 @Override
+				 public void onClick(View v) {
+					 if (Connection.isLogged) {
+						 Toast.makeText(view.getContext(),"User page",Toast.LENGTH_LONG).show();
+					 } else {
+						 Intent intent = new Intent(view.getContext(),
+								 LoginActivity.class);
+						 startActivity(intent);
+					 }
+				 }
+			 });
             new GetData().execute();
 			lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 				@Override

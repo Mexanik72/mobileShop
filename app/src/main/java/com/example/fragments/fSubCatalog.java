@@ -2,6 +2,7 @@ package com.example.fragments;
 
 import android.app.Fragment;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -11,6 +12,7 @@ import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -38,7 +40,7 @@ public class fSubCatalog extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         dataList = new ArrayList<ListRow>();
-        View view = inflater.inflate(R.layout.catalog_sub_frg, container, false);
+        final View view = inflater.inflate(R.layout.catalog_sub_frg, container, false);
         js = (TextView) view.findViewById(R.id.catalog_sub_view);
         lv = (ListView) view.findViewById(R.id.catalog_sub_list);
         ImageButton ib = (ImageButton) view.findViewById(R.id.catalog_sub_imageButton);
@@ -52,6 +54,26 @@ public class fSubCatalog extends Fragment {
         });
         id = getArguments().getInt("id");
         js.setText(getArguments().getString("category"));
+
+        ImageButton user = (ImageButton) view.findViewById(R.id.userButton);
+        if (Connection.isLogged) {
+            user.setImageResource(R.drawable.user);
+        } else {
+            user.setImageResource(R.drawable.guest);
+        }
+        user.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (Connection.isLogged) {
+                    Toast.makeText(view.getContext(), "User page", Toast.LENGTH_LONG).show();
+                } else {
+                    Intent intent = new Intent(view.getContext(),
+                            LoginActivity.class);
+                    startActivity(intent);
+                }
+            }
+        });
+
         new GetData().execute();
 
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {

@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#9ef43d">
+    android:background="#10d907">
 
     <ImageButton
         android:layout_width="45dp"
@@ -30,7 +30,9 @@
         android:layout_alignBottom="@+id/imageButton"
         android:layout_toRightOf="@+id/imageButton"
         android:layout_toEndOf="@+id/imageButton"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:textColor="#8b0023"
+        android:paddingBottom="20px" />
 
 
     <ImageButton
@@ -50,7 +52,6 @@
         android:id="@+id/userButton"
         android:src="@drawable/user"
         android:scaleType="fitXY"
-        android:onClick="onClick"
         android:background="@null"
         android:layout_toLeftOf="@id/cartButton"/>
 
@@ -61,6 +62,7 @@
         android:layout_height="match_parent"
         android:layout_alignParentLeft="true"
         android:layout_marginLeft="0dp"
-        android:layout_below="@+id/imageButton" />
+        android:layout_below="@+id/imageButton"
+        android:background="#bbff99" />
 
 </RelativeLayout>

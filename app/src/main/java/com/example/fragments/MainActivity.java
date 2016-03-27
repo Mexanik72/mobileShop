@@ -65,7 +65,10 @@ public class MainActivity extends Activity {
 	@Override
 	protected void onResume() {
 		super.onResume();
-		if(Connection.isLogged)
-			getFragmentManager().beginTransaction().replace(R.id.frgmCont, new fWelcome()).commit();
+		if(Connection.isLogged) {
+			getFragmentManager().beginTransaction();
+			getFragmentManager().popBackStack();
+			getFragmentManager().executePendingTransactions();
+		}
 	}
 }
