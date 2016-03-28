@@ -219,7 +219,6 @@ public class fItems extends Fragment {
             // Dismiss the progress dialog
             if (pDialog.isShowing())
                 pDialog.dismiss();
-            showCarousel();
             //lv.setAdapter(new ListAdapterItems(getActivity(), dataList));
         }
     }
@@ -227,8 +226,6 @@ public class fItems extends Fragment {
 
         // Get the array of puppy resources
         //final TypedArray puppyResourcesTypedArray = getResources().obtainTypedArray(R.array.puppies_array);
-
-        Toast.makeText(getActivity().getBaseContext(), "hoh"+dataList.size(), Toast.LENGTH_LONG).show();
         for(int i=0;i<dataList.size();i++) {
             // Populate the carousel with items
             ImageView imageItem;
@@ -240,6 +237,7 @@ public class fItems extends Fragment {
             rl.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    //idItem должен хранить кликабельный элемент
                     new GetDataItem().execute();
                 }
             });
