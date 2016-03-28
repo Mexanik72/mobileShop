@@ -109,6 +109,7 @@ public class LoginActivity extends Activity {
 									toast.show();
 									finish();
 								} else {
+									login.setEnabled(true);
 									Connection.isLogged = false;
 									LayoutInflater inflater = getLayoutInflater();
 									View layout = inflater.inflate(R.layout.red_toast,
