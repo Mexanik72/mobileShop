@@ -92,6 +92,7 @@ public class fCatalog extends Fragment {
 					Bundle bundle = new Bundle();
 					bundle.putInt("id", dataList.get(position).getId());
 					bundle.putString("category", dataList.get(position).getTitle());
+					bundle.putParcelable("icon", dataList.get(position).getIcon());
 					fSubCat.setArguments(bundle);
 					getFragmentManager().beginTransaction().replace(R.id.frgmCont, fSubCat).addToBackStack("subcatalog").commit();
 				}

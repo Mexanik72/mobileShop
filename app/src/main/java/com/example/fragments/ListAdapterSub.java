@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 public class ListAdapterSub extends BaseAdapter {
@@ -41,6 +42,7 @@ public class ListAdapterSub extends BaseAdapter {
             holder = new ViewHolder();
             convertView = layoutInflater.inflate(R.layout.list_item_sub, null);
             holder.name = (TextView) convertView.findViewById(R.id.sub_title);
+            holder.image = (ImageView) convertView.findViewById(R.id.sub_icon);
             convertView.setTag(holder);
         }
         else {
@@ -48,11 +50,13 @@ public class ListAdapterSub extends BaseAdapter {
         }
         ListRow item = (ListRow) dataList.get(position);
         holder.name.setText(item.getTitle());
+        holder.image.setImageBitmap(item.getIcon());
         return convertView;
     }
 
     static class ViewHolder
     {
         TextView name;
+        ImageView image;
     }
 }

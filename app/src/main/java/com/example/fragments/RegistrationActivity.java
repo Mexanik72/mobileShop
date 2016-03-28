@@ -17,12 +17,16 @@ import org.json.JSONTokener;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -129,13 +133,32 @@ public class RegistrationActivity extends Activity
 							if (finalResult != null) {
 								String status = finalResult.getString("status");
 								if (status.equals("ok")) {
-									Toast.makeText(getApplicationContext(), "Registration successfully completed", Toast.LENGTH_LONG).show();
+									LayoutInflater inflater = getLayoutInflater();
+									View layout = inflater.inflate(R.layout.green_toast,
+									                               (ViewGroup) findViewById(R.id.toast_layout_root));
+									TextView text = (TextView) layout.findViewById(R.id.toast_text);
+									text.setText("Registration successfully completed");
+									Toast toast = new Toast(getApplicationContext());
+									toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
+									toast.setDuration(Toast.LENGTH_LONG);
+									toast.setView(layout);
+									toast.show();
 									finish();
 								} else {
 									JSONObject message = finalResult.getJSONObject("message");
 									Iterator<String> keys = message.keys();
 									JSONArray firstError = message.getJSONArray(keys.next());
-									Toast.makeText(getApplicationContext(), firstError.get(0).toString(), Toast.LENGTH_LONG).show();
+									
+									LayoutInflater inflater = getLayoutInflater();
+									View layout = inflater.inflate(R.layout.red_toast,
+									                               (ViewGroup) findViewById(R.id.toast_layout_root));
+									TextView text = (TextView) layout.findViewById(R.id.toast_text);
+									text.setText(firstError.get(0).toString());
+									Toast toast = new Toast(getApplicationContext());
+									toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
+									toast.setDuration(Toast.LENGTH_LONG);
+									toast.setView(layout);
+									toast.show();
 								}
 							}
 						} catch (JSONException e) {
@@ -149,7 +172,16 @@ public class RegistrationActivity extends Activity
 					Task task = new Task();
 					task.execute();
 				} else {
-					Toast.makeText(getApplicationContext(), status, Toast.LENGTH_LONG).show();
+					LayoutInflater inflater = getLayoutInflater();
+					View layout = inflater.inflate(R.layout.red_toast,
+					                               (ViewGroup) findViewById(R.id.toast_layout_root));
+					TextView text = (TextView) layout.findViewById(R.id.toast_text);
+					text.setText(status);
+					Toast toast = new Toast(getApplicationContext());
+					toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
+					toast.setDuration(Toast.LENGTH_LONG);
+					toast.setView(layout);
+					toast.show();
 				}
 			}
 

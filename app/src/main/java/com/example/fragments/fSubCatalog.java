@@ -3,6 +3,7 @@ package com.example.fragments;
 import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -35,6 +36,7 @@ public class fSubCatalog extends Fragment {
 
     int id;
     public TextView js;
+    Bitmap icon;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -54,6 +56,7 @@ public class fSubCatalog extends Fragment {
         });
         id = getArguments().getInt("id");
         js.setText(getArguments().getString("category"));
+        icon =(Bitmap)getArguments().getParcelable("icon");
 
         ImageButton user = (ImageButton) view.findViewById(R.id.userButton);
         if (Connection.isLogged) {
@@ -115,7 +118,7 @@ public class fSubCatalog extends Fragment {
 
                         String id = c.getString(TAG_ID);
                         String name = c.getString(TAG_NAME);
-                        ListRow row = new ListRow(Integer.parseInt(id), name, null);
+                        ListRow row = new ListRow(Integer.parseInt(id), name, icon);
 
                         dataList.add(row);
                     }

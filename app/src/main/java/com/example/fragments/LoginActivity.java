@@ -9,13 +9,18 @@ import java.util.HashMap;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONException;
@@ -92,12 +97,30 @@ public class LoginActivity extends Activity {
 									Connection.isLogged = true;
 									JSONObject data = finalResult.getJSONObject("data");
 									SharedPreferencesManager.setAccessToken(data.getString("token"));
-									Toast.makeText(getApplicationContext(), "You are successfully logged in", Toast.LENGTH_LONG).show();
+									LayoutInflater inflater = getLayoutInflater();
+									View layout = inflater.inflate(R.layout.green_toast,
+									                               (ViewGroup) findViewById(R.id.toast_layout_root));
+									TextView text = (TextView) layout.findViewById(R.id.toast_text);
+									text.setText("You are successfully logged in");
+									Toast toast = new Toast(getApplicationContext());
+									toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
+									toast.setDuration(Toast.LENGTH_LONG);
+									toast.setView(layout);
+									toast.show();
 									finish();
 								} else {
 									Connection.isLogged = false;
-									Toast.makeText(getApplicationContext(), "Incorrect login or password", Toast.LENGTH_LONG).show();
-								}
+									LayoutInflater inflater = getLayoutInflater();
+									View layout = inflater.inflate(R.layout.red_toast,
+									                               (ViewGroup) findViewById(R.id.toast_layout_root));
+									TextView text = (TextView) layout.findViewById(R.id.toast_text);
+									text.setText("Incorrect login or password");
+									Toast toast = new Toast(getApplicationContext());
+									toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
+									toast.setDuration(Toast.LENGTH_LONG);
+									toast.setView(layout);
+									toast.show();
+									}
 							}
 						} catch (JSONException e) {
 							// TODO Auto-generated catch block
@@ -109,8 +132,17 @@ public class LoginActivity extends Activity {
 				if (status == null) {
 					Task task = new Task();
 					task.execute();
-				} else {
-					Toast.makeText(getApplicationContext(), status, Toast.LENGTH_LONG).show();
+				} else {				
+					LayoutInflater inflater = getLayoutInflater();
+					View layout = inflater.inflate(R.layout.red_toast,
+										(ViewGroup) findViewById(R.id.toast_layout_root));
+					TextView text = (TextView) layout.findViewById(R.id.toast_text);
+					text.setText(status);
+					Toast toast = new Toast(getApplicationContext());
+					toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
+					toast.setDuration(Toast.LENGTH_LONG);
+					toast.setView(layout);
+					toast.show();
 				}
 			}
 
