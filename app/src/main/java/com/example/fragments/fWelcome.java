@@ -1,6 +1,7 @@
 package com.example.fragments;
  
 import android.app.Fragment;
+import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -28,6 +29,9 @@ public class fWelcome extends Fragment {
 	View velcomeView;
 	ImageView imageView;
 
+	fAboutUs fAbout = null;
+	fHelp fHelp = null;
+	fCatalog fCatalog = null;
 	class LogoutAsync extends AsyncTask<Void, Void, Boolean> {
 		@Override
 		protected Boolean doInBackground(Void... params) {
@@ -60,6 +64,7 @@ public class fWelcome extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		velcomeView = inflater.inflate(R.layout.welcome_frg, container, false);
+		final FragmentManager fm = getFragmentManager();
 
 		imageView = (ImageView) velcomeView.findViewById(R.id.imageView1);
 		imageView.setOnClickListener(new View.OnClickListener() {
@@ -82,15 +87,27 @@ public class fWelcome extends Fragment {
 		ll.setOnTouchListener(new OnSwipeTouchListener(velcomeView.getContext()) {
 
 			public void onSwipeTop() {
-				getFragmentManager().beginTransaction().replace(R.id.frgmCont, new fAboutUs()).addToBackStack("about").commit();
+				fAbout = (fAboutUs) fm.findFragmentByTag("about");
+				if(fAbout == null) {
+					fAbout = new fAboutUs();
+					fm.beginTransaction().add(R.id.frgmCont, fAbout, "about").addToBackStack("about").commit();
+				}
 			}
 
 			public void onSwipeRight() {
-				getFragmentManager().beginTransaction().replace(R.id.frgmCont, new fHelp()).addToBackStack("help").commit();
+				fHelp = (fHelp) fm.findFragmentByTag("help");
+				if(fHelp == null) {
+					fHelp = new fHelp();
+					fm.beginTransaction().replace(R.id.frgmCont, fHelp, "help").addToBackStack("help").commit();
+				}
 			}
 
 			public void onSwipeLeft() {
-				getFragmentManager().beginTransaction().replace(R.id.frgmCont, new fCatalog()).addToBackStack("catalog").commit();
+				fCatalog = (fCatalog) fm.findFragmentByTag("catalog");
+				if(fCatalog == null) {
+					fCatalog = new fCatalog();
+					fm.beginTransaction().replace(R.id.frgmCont, fCatalog, "catalog").addToBackStack("catalog").commit();
+				}
 			}
 
 			public void onSwipeBottom() {

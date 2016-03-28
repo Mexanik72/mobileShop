@@ -41,6 +41,7 @@ public class fSubCatalog extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        this.setRetainInstance(true);
         dataList = new ArrayList<ListRow>();
         final View view = inflater.inflate(R.layout.catalog_sub_frg, container, false);
         js = (TextView) view.findViewById(R.id.catalog_sub_view);

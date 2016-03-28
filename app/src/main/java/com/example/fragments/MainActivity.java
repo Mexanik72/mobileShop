@@ -65,10 +65,16 @@ public class MainActivity extends Activity {
 	@Override
 	protected void onResume() {
 		super.onResume();
-		if(Connection.isLogged) {
+		/*if(Connection.isLogged) {
 			getFragmentManager().beginTransaction();
 			getFragmentManager().popBackStack();
 			getFragmentManager().executePendingTransactions();
 		}
 	}
+	protected void onRestoreInstanceState(Bundle savedInstanceState) {
+		super.onRestoreInstanceState(savedInstanceState);
+	}
+	*/
+	}
+
 }

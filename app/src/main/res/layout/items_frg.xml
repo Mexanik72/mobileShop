@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#10d907">
+    android:background="#B0DC51">
 
     <ImageButton
         android:layout_width="45dp"
@@ -54,13 +54,27 @@
         android:background="@null"
         android:layout_toLeftOf="@id/cartButton"/>
 
-    <ListView
-        android:id="@+id/data_list_items"
-        android:layout_width="fill_parent"
-        android:layout_height="match_parent"
+    <!-- Container view to scroll horizontally which gives the carousel effect -->
+    <HorizontalScrollView android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="none"
         android:layout_alignParentLeft="true"
         android:layout_marginLeft="0dp"
-        android:layout_below="@+id/items_view"
-        android:background="#bbff99" />
+        android:layout_below="@+id/items_view">
+
+        <!-- Carousel items container - lays out items horizontally -->
+        <LinearLayout android:id="@+id/carousel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+        </LinearLayout>
+    </HorizontalScrollView>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/item"
+        android:layout_alignParentBottom="true"></LinearLayout>
 
 </RelativeLayout>

@@ -2,9 +2,6 @@ package com.example.fragments;
 
 import android.graphics.Bitmap;
 
-/**
- * Created by Андрей on 27.03.2016.
- */
 public class ListRowItem {
     private int id;
     private String title;

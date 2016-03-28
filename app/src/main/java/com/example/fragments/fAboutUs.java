@@ -32,6 +32,8 @@ public class fAboutUs extends Fragment {
             }
         });
 
+        this.setRetainInstance(true);
+
         return view;
     }
     public void setText() {
